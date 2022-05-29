@@ -22,7 +22,7 @@ public class MessageDao {
 	JdbcTemplate jdbcTemplate;
 
 	public int save(request requestBody,Client client) throws SQLErrorException  {
-		int result = 0;
+		int result ;
 		String query = "insert into message_details(msg,scheduled_at,destination,client_id,created_at,scheduled_status) values (?,?,?,?,?,?)";
 		try {
 			result = jdbcTemplate.update(query, requestBody.getMessage(), requestBody.getScheduledTime(),

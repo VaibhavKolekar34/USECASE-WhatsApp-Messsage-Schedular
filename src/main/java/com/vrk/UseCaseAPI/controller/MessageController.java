@@ -32,36 +32,45 @@ public class MessageController {
 	
 	@PostMapping("/sendMsg")
 	public response MessageHandler(@RequestBody request requestBody, HttpServletRequest hr) {
-		response r = null;
+		response r = new response();
 		String regx = "[9]{1}[1]{1}[6-9]{1}[0-9]{9}";
-		LocalDateTime sd=LocalDateTime.parse(requestBody.getScheduledTime().replace(" ", "T"));
 		
 		 try {
-	            Client client = (Client) hr.getAttribute("client");
-	            System.out.println("client_details: " + client);
 	            if(requestBody.getMessage().isEmpty() || requestBody.getPhonenumber().isEmpty() || requestBody.getScheduledTime().isEmpty() )
 	            {
-	            	r = new response(5002, "Validation Failed message/phonenumber/scheduledTime should not be empty");
+	            	//r = new response(5002, "Validation Failed message/phonenumber/scheduledTime should not be empty");
+	            	r.setCode(5002);
+	            	r.setMessage("Validation Failed message/phonenumber/scheduledTime should not be empty");
 	            	System.out.println("validation Failed message/phonenumber/scheduledTime should not be empty");
 	            	return r;
 	            }
-	            else if(!requestBody.getPhonenumber().matches(regx))
+	             if(!requestBody.getPhonenumber().matches(regx))
 	            {
-	            	r = new response(5002, "Validation Failed phonenumber format is wrong");
+	            	r.setCode(5002);
+	            	r.setMessage("Validation Failed phonenumber format is wrong");
 	            	System.out.println("Validation Failed phonenumber format is wrong");
 	            	return r;
 	            }
-	            else if(sd.isBefore(LocalDateTime.now()))
+	             
+	     		LocalDateTime sd=LocalDateTime.parse(requestBody.getScheduledTime().replace(" ", "T"));
+
+	             if(sd.isBefore(LocalDateTime.now()))
 	            {
-	            	r = new response(5002, "Validation Failed scheduled time should be greater than cuurent time");
+		            r.setCode(5002);
+		           	r.setMessage("Validation Failed scheduled time should be greater than cuurent time"); 
 	            	System.out.println("Validation Failed scheduled time should be greater than cuurent time");
 	            	return r;
 	            }
-	            else
-	            {
+
+		         Client client = (Client) hr.getAttribute("client");
+		         System.out.println("client_details: " + client); 
+	           
 	            messageservice.saveMessage(requestBody, client);
-	            r = new response(200, "OK, message scheduled");
-	            }
+
+            	r.setCode(200);
+            	r.setMessage("OK, message scheduled");
+	            
+	            
 
 	        } catch (SQLErrorException e) {
 	            logger.warn("Sql Exception Occured");

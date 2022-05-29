@@ -17,6 +17,15 @@ public class request {
 	
 	
 	
+	
+	public request() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
 	public String getMessage() {
 		return message;
 	}

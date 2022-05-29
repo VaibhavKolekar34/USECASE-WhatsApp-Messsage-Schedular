@@ -1,10 +1,6 @@
 package com.vrk.UseCaseAPI.dao;
 
 
-import java.time.LocalDateTime;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,18 +38,6 @@ public class MessageDaoTest {
     }
     
     
-    @AfterEach
-    void tearDown()
-    {
-    	System.out.println("tearing Down");
-    }
-    
-    @BeforeEach
-    void setUp()
-    {
-    	System.out.println("Setting Up");
-
-    }
     
    
 }
